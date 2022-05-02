@@ -4,6 +4,9 @@ do_token = ""
 # Path to private key
 pvt_key = ""
 
+# Lets encrypt email
+lets_encrypt_email = ""
+
 # Root domain for rancher
 rancher_root_domain = ""
 
@@ -27,6 +30,3 @@ rancher_kubernetes_version = "v1.21.11+k3s1"
 
 # Rancher server version (format: v0.0.0)
 rancher_version = "v2.6.4"
-
-# Lets encrypt email
-lets_encrypt_email = "cotyhamilton@gmail.com"
