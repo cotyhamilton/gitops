@@ -1,0 +1,5 @@
+# gitops
+
+- terraform
+- rancher
+- digitalocean

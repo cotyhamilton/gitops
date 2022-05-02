@@ -1,0 +1,3 @@
+#!/bin/bash -x
+
+curl -sfL https://get.k3s.io | sh -
