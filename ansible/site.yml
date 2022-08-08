@@ -1,0 +1,7 @@
+---
+- name: Pre Deployment Configuration
+  hosts: default
+  become: true
+
+  roles:
+  - k3s

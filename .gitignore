@@ -8,19 +8,24 @@
 # Crash log files
 crash.log
 
-# terraform.tvars
-terraform.tfvars
+# Ignore any .tfvars files that are generated automatically for each Terraform run. Most
+# .tfvars files are managed as part of configuration and so should be included in
+# version control.
+#
+# example.tfvars
 
-# known files created by terraform modules
-id_rsa*
-kube_config*
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 
-# vagrant files
-.vagrant/
-vagrant/local_config.yaml
+# Include override files you do wish to add to version control using negated pattern
+#
+# !example_override.tf
 
-# MacOS junk
-.DS_Store
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+# example: *tfplan*
 
-# Terraform plan files
-*.tfplan
+.env
