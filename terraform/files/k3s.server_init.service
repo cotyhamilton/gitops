@@ -29,3 +29,5 @@ ExecStartPre=-/sbin/modprobe overlay
 ExecStart=/usr/local/bin/k3s \
     server \
         '--cluster-init' \
+        '--node-taint' \
+        'CriticalAddonsOnly=true:NoExecute' \

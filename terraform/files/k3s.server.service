@@ -30,3 +30,5 @@ ExecStart=/usr/local/bin/k3s \
     server \
         '--server' \
         'https://${K3S_SERVER_IP}:6443' \
+        '--node-taint' \
+        'CriticalAddonsOnly=true:NoExecute' \
