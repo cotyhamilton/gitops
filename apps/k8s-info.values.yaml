@@ -1,2 +1,2 @@
 ingress:
-  host: k8s-info.apps.cotyhamilton.com
+  host: k8s-info.apps.example.com
