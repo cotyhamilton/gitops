@@ -10,7 +10,7 @@ resource "digitalocean_loadbalancer" "k3s" {
     entry_port     = 80
     entry_protocol = "http"
 
-    target_port     = 30080
+    target_port     = 80
     target_protocol = "http"
   }
 
@@ -20,13 +20,13 @@ resource "digitalocean_loadbalancer" "k3s" {
     entry_port     = 443
     entry_protocol = "https"
 
-    target_port     = 30080
+    target_port     = 80
     target_protocol = "http"
     tls_passthrough = false
   }
 
   healthcheck {
-    port     = 30080
+    port     = 22
     protocol = "tcp"
   }
 

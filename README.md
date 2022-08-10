@@ -38,7 +38,6 @@ kubectl get nodes
 
 # install ingress-nginx first
 cd ../apps
-helm install ingress-nginx ingress-nginx --values ingress-nginx.values.yaml
 
 # install a blank nginx webserver
 # update example-website.values.yaml with the correct host for ingress
