@@ -2,8 +2,9 @@ resource "digitalocean_loadbalancer" "k3s" {
   name   = "k3s-agents"
   region = "nyc3"
 
-  redirect_http_to_https   = true
-  enable_backend_keepalive = true
+  redirect_http_to_https           = true
+  enable_backend_keepalive         = true
+  disable_lets_encrypt_dns_records = true
 
   forwarding_rule {
     entry_port     = 80
