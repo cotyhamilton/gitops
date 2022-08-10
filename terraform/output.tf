@@ -1,9 +1,9 @@
 output "server_ips" {
-  value = flatten([digitalocean_droplet.server_init.ipv4_address, digitalocean_droplet.server.*.ipv4_address])
+  value = flatten([digitalocean_droplet.k3s_server_init.ipv4_address, digitalocean_droplet.k3s_server.*.ipv4_address])
 }
 
 output "agent_ips" {
-  value = digitalocean_droplet.agent.*.ipv4_address
+  value = digitalocean_droplet.k3s_agent.*.ipv4_address
 }
 
 output "kubeconfig" {

@@ -1,13 +1,5 @@
-resource "digitalocean_record" "rancher" {
-  domain = data.digitalocean_domain.gitops.id
-  type   = "A"
-  name   = "*.apps"
-  ttl    = 60
-  value  = digitalocean_loadbalancer.gitops.ip
-}
-
-resource "digitalocean_loadbalancer" "gitops" {
-  name   = "nyc3-load-balancer-01"
+resource "digitalocean_loadbalancer" "k3s" {
+  name   = "k3s-agents"
   region = "nyc3"
 
   redirect_http_to_https   = true
@@ -22,7 +14,7 @@ resource "digitalocean_loadbalancer" "gitops" {
   }
 
   forwarding_rule {
-    certificate_name = data.digitalocean_certificate.gitops.name
+    certificate_name = data.digitalocean_certificate.k3s.name
 
     entry_port     = 443
     entry_protocol = "https"

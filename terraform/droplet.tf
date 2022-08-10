@@ -1,9 +1,9 @@
-resource "digitalocean_droplet" "server_init" {
+resource "digitalocean_droplet" "k3s_server_init" {
   image    = var.droplet_image
   name     = "k3s-server-0"
   region   = "nyc3"
   size     = "s-2vcpu-4gb"
-  ssh_keys = [data.digitalocean_ssh_key.gitops.id]
+  ssh_keys = [data.digitalocean_ssh_key.k3s.id]
 
   provisioner "remote-exec" {
     inline = ["echo server is online"]
@@ -29,7 +29,7 @@ resource "digitalocean_droplet" "server_init" {
   }
 
   provisioner "file" {
-    source      = "files/k3s.server_init.service"
+    source      = "files/k3s.k3s_server_init.service"
     destination = "/etc/systemd/system/k3s.service"
 
     connection {
@@ -54,13 +54,13 @@ resource "digitalocean_droplet" "server_init" {
   }
 }
 
-resource "digitalocean_droplet" "server" {
+resource "digitalocean_droplet" "k3s_server" {
   count    = 2
   image    = var.droplet_image
   name     = "k3s-server-${count.index + 1}"
   region   = "nyc3"
   size     = "s-2vcpu-4gb"
-  ssh_keys = [data.digitalocean_ssh_key.gitops.id]
+  ssh_keys = [data.digitalocean_ssh_key.k3s.id]
 
   provisioner "remote-exec" {
     inline = ["echo server is online"]
@@ -74,7 +74,7 @@ resource "digitalocean_droplet" "server" {
   }
 
   provisioner "file" {
-    content     = "K3S_TOKEN='${var.k3s_token}'\nK3S_SERVER_IP='${digitalocean_droplet.server_init.ipv4_address}'"
+    content     = "K3S_TOKEN='${var.k3s_token}'\nK3S_SERVER_IP='${digitalocean_droplet.k3s_server_init.ipv4_address}'"
     destination = "/etc/systemd/system/k3s.service.env"
 
     connection {
@@ -111,13 +111,13 @@ resource "digitalocean_droplet" "server" {
   }
 }
 
-resource "digitalocean_droplet" "agent" {
+resource "digitalocean_droplet" "k3s_agent" {
   count    = 2
   image    = var.droplet_image
   name     = "k3s-agent-${count.index}"
   region   = "nyc3"
   size     = "s-2vcpu-4gb"
-  ssh_keys = [data.digitalocean_ssh_key.gitops.id]
+  ssh_keys = [data.digitalocean_ssh_key.k3s.id]
   tags     = ["k3s_agent"]
 
   provisioner "remote-exec" {
@@ -132,7 +132,7 @@ resource "digitalocean_droplet" "agent" {
   }
 
   provisioner "file" {
-    content     = "K3S_TOKEN='${var.k3s_token}'\nK3S_SERVER_IP='${digitalocean_droplet.server_init.ipv4_address}'"
+    content     = "K3S_TOKEN='${var.k3s_token}'\nK3S_SERVER_IP='${digitalocean_droplet.k3s_server_init.ipv4_address}'"
     destination = "/etc/systemd/system/k3s.service.env"
 
     connection {
