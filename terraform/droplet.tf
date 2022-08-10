@@ -29,7 +29,7 @@ resource "digitalocean_droplet" "k3s_server_init" {
   }
 
   provisioner "file" {
-    source      = "files/k3s.k3s_server_init.service"
+    source      = "files/k3s.server_init.service"
     destination = "/etc/systemd/system/k3s.service"
 
     connection {
