@@ -4,6 +4,8 @@ resource "digitalocean_droplet" "k3s_server_init" {
   region   = "nyc3"
   size     = "s-2vcpu-4gb"
   ssh_keys = [data.digitalocean_ssh_key.k3s.id]
+  vpc_uuid = digitalocean_vpc.k3s.id
+  tags     = ["k3s-server"]
 
   provisioner "remote-exec" {
     inline = ["echo server is online"]
@@ -17,7 +19,7 @@ resource "digitalocean_droplet" "k3s_server_init" {
   }
 
   provisioner "file" {
-    content     = "K3S_TOKEN='${var.k3s_token}'"
+    content     = "K3S_TOKEN='${var.k3s_token}'\nK3S_SERVER_DOMAIN='${digitalocean_record.k3s_server.fqdn}'"
     destination = "/etc/systemd/system/k3s.service.env"
 
     connection {
@@ -61,6 +63,8 @@ resource "digitalocean_droplet" "k3s_server" {
   region   = "nyc3"
   size     = "s-2vcpu-4gb"
   ssh_keys = [data.digitalocean_ssh_key.k3s.id]
+  vpc_uuid = digitalocean_vpc.k3s.id
+  tags     = ["k3s-server"]
 
   provisioner "remote-exec" {
     inline = ["echo server is online"]
@@ -74,7 +78,7 @@ resource "digitalocean_droplet" "k3s_server" {
   }
 
   provisioner "file" {
-    content     = "K3S_TOKEN='${var.k3s_token}'\nK3S_SERVER_IP='${digitalocean_droplet.k3s_server_init.ipv4_address}'"
+    content     = "K3S_TOKEN='${var.k3s_token}'\nK3S_SERVER_IP='${digitalocean_droplet.k3s_server_init.ipv4_address_private}'\nK3S_SERVER_DOMAIN='${digitalocean_record.k3s_server.fqdn}'"
     destination = "/etc/systemd/system/k3s.service.env"
 
     connection {
@@ -118,7 +122,8 @@ resource "digitalocean_droplet" "k3s_agent" {
   region   = "nyc3"
   size     = "s-2vcpu-4gb"
   ssh_keys = [data.digitalocean_ssh_key.k3s.id]
-  tags     = ["k3s_agent"]
+  vpc_uuid = digitalocean_vpc.k3s.id
+  tags     = ["k3s-agent"]
 
   provisioner "remote-exec" {
     inline = ["echo server is online"]
@@ -132,7 +137,7 @@ resource "digitalocean_droplet" "k3s_agent" {
   }
 
   provisioner "file" {
-    content     = "K3S_TOKEN='${var.k3s_token}'\nK3S_SERVER_IP='${digitalocean_droplet.k3s_server_init.ipv4_address}'"
+    content     = "K3S_TOKEN='${var.k3s_token}'\nK3S_SERVER_IP='${digitalocean_droplet.k3s_server_init.ipv4_address_private}'"
     destination = "/etc/systemd/system/k3s.service.env"
 
     connection {

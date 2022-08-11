@@ -36,7 +36,6 @@ kubectl get nodes
 
 # install example apps
 
-# install ingress-nginx first
 cd ../apps
 
 # install a blank nginx webserver
