@@ -15,7 +15,14 @@ source ./setenv.sh
 ```
 
 ---
+## Prerequisites
+- DigitalOcean Account with following resources (see `terraform/data.tf`)
+    - ssh key
+    - domain
+    - wildcard ssl cert for domain
+        - personal preference to use an external cert and configure the load balancer to terminate ssl connections instead of using cert manager with LE inside the cluster and risk hitting the rate limits, especially while testing and iterating.
 
+---
 ## Usage
 ```sh
 # build the image with packer, save the image id to use in terraform
